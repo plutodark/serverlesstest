@@ -1,0 +1,20 @@
+service: serverlesstest
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-west-2
+  memorySize: 128
+plugins:
+  - serverless-offline
+  - serverless-webpack
+functions:
+  function1:
+    handler: index.handler
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
+
