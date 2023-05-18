@@ -9,6 +9,11 @@ provider:
 plugins:
   - serverless-offline
   - serverless-webpack
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    excludeFiles: '**/*.test.js'
+    excludeRegex: \.ts|test|\.map
 functions:
   function1:
     handler: index.handler
