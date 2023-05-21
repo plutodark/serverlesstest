@@ -2,24 +2,23 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./index.ts":
-/*!******************!*\
-  !*** ./index.ts ***!
-  \******************/
+/***/ "@apollo/server":
+/*!*********************************!*\
+  !*** external "@apollo/server" ***!
+  \*********************************/
 /***/ ((module) => {
 
+module.exports = require("@apollo/server");
 
-module.exports.handler = async (event) => {
-    console.log('meow');
-    return {
-        statusCode: 200,
-        body: JSON.stringify({
-            message: 'Go Serverless v3.0! Your function executed successfully!',
-            input: event,
-        }, null, 2),
-    };
-};
+/***/ }),
 
+/***/ "@as-integrations/aws-lambda":
+/*!**********************************************!*\
+  !*** external "@as-integrations/aws-lambda" ***!
+  \**********************************************/
+/***/ ((module) => {
+
+module.exports = require("@as-integrations/aws-lambda");
 
 /***/ })
 
@@ -50,13 +49,59 @@ module.exports.handler = async (event) => {
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module used 'module' so it can't be inlined
-/******/ 	var __webpack_exports__ = __webpack_require__("./index.ts");
-/******/ 	module.exports = __webpack_exports__;
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+var exports = __webpack_exports__;
+/*!******************!*\
+  !*** ./index.ts ***!
+  \******************/
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.graphqlHandler = void 0;
+const server_1 = __webpack_require__(/*! @apollo/server */ "@apollo/server");
+const aws_lambda_1 = __webpack_require__(/*! @as-integrations/aws-lambda */ "@as-integrations/aws-lambda");
+const typeDefs = `
+  type Query {
+    hello: String
+  }
+`;
+const resolvers = {
+    Query: {
+        hello: () => {
+            console.log('try try');
+            return 'meow';
+        }
+    }
+};
+const server = new server_1.ApolloServer({
+    typeDefs,
+    resolvers,
+    introspection: false
+});
+exports.graphqlHandler = (0, aws_lambda_1.startServerAndCreateLambdaHandler)(server, 
+// We will be using the Proxy V2 handler
+aws_lambda_1.handlers.createAPIGatewayProxyEventV2RequestHandler());
+/*
+module.exports.handler = async (event: Event) => {
+  return {
+    statusCode: 200,
+    body: JSON.stringify(
+      {
+        message: 'Go Serverless v3.0! Your function executed successfully!',
+        input: event,
+      },
+      null,
+      2
+    ),
+  };
+};
+
+*/
+
+})();
+
+module.exports = __webpack_exports__;
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map

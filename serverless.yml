@@ -15,11 +15,13 @@ custom:
     excludeFiles: '**/*.test.js'
     excludeRegex: \.ts|test|\.map
 functions:
-  function1:
-    handler: index.handler
+  graphql:
+    handler: index.graphqlHandler
     events:
-      - http:
+      - httpApi:
           path: /
-          method: get
-          cors: true
+          method: POST
+      - httpApi:
+          path: /
+          method: GET
 
