@@ -62,6 +62,7 @@ jobs:
       run: echo "${{ github.event.pull_request.number }}"
     - name: Echo github event name
       run: echo "${{ github.event_name }}"
+      
   remove-deployment:
     # if: github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.ref != 'refs/heads/staging' && github.ref != 'refs/heads/production'
     if: github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.ref != 'refs/heads/staging' && github.ref != 'refs/heads/production'
