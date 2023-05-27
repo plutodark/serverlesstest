@@ -1,6 +1,7 @@
 service: serverlesstest
 frameworkVersion: '3'
-
+package:
+  individually: true
 provider:
   name: aws
   runtime: nodejs18.x
@@ -14,6 +15,8 @@ custom:
     webpackConfig: ./webpack.config.js
     excludeFiles: '**/*.test.js'
     excludeRegex: \.ts|test|\.map
+    includeModules: true
+    packager: 'yarn'
 functions:
   graphql:
     handler: index.graphqlHandler
@@ -21,7 +24,7 @@ functions:
       - httpApi:
           path: /
           method: POST
-      - httpApi:
-          path: /
-          method: GET
+      #- httpApi:
+      #    path: /
+      #    method: GET
 
