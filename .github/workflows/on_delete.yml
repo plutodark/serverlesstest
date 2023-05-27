@@ -1,27 +1,29 @@
 name: Serverless Delete
 
+# only trigger on pull request closed events
 on:
-  delete:
-    branches:
-      - '*'
+  pull_request:
+    types: [closed]
 
-# Specify what jobs to run
 jobs:
-  deploy:
-    name: delete
+  merge-job:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-  #  env:
-  #    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
     steps:
-      - uses: actions/checkout@v3
+    - name: Echo PR number
+      run: echo "PR ${{ github.event.pull_request.number }} has been merged"
+    - name: Echo branch name
+      run: echo "${{ github.ref_name }}"
 
-      - name: Github context
-        run: echo "${{ toJson(github) }}"
+  close-job:
+    if: github.event.pull_request.merged == false
+    runs-on: ubuntu-latest
+    steps:
+    - name: Echo PR number
+      run: echo "PR ${{ github.event.pull_request.number }} has been closed without being merged"
+    - name: Echo branch name
+      run: echo "${{ github.ref_name }}"
 
-      - name: echo github.event_path
-        run: echo "${{ github.event_path }}"
       
     #  - name: Set Branch name
     #    run: |
