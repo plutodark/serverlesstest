@@ -1,4 +1,4 @@
-name: Serverless Delete example
+name: Serverless Delete
 
 on:
   delete:
@@ -16,7 +16,7 @@ jobs:
   #    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     steps:
-      - uses: actions/checkout@v1 
+      - uses: actions/checkout@v3
 
       - name: Github context
         run: echo "${{ toJson(github) }}"
