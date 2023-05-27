@@ -8,6 +8,7 @@ on:
     branches:
       - staging
       - production
+      - finetune-cicd-again
 
 jobs:
   serverless-deploy:
@@ -53,6 +54,12 @@ jobs:
   #    run: serverless deploy --stage $STAGE
       #run: serverless deploy --stage ${{ env.STAGE }}
 
+  staging-post-deployment:
+    if: github.event_name == 'push' && $GITHUB_REF_NAME  == "finetune-cicd-again"
+    runs-on: ubuntu-latest
+    steps:
+    - name: Echo PR number
+      run: echo "${{ github.event.pull_request.number }}"
   remove-deployment:
     # if: github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.ref != 'refs/heads/staging' && github.ref != 'refs/heads/production'
     if: github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.ref != 'refs/heads/staging' && github.ref != 'refs/heads/production'
