@@ -33,10 +33,12 @@ jobs:
     - name: Install packages
       if: steps.yarn-cache.outputs.cache-hit != 'true'
       run: yarn
-    - name: Echo GITHUB_REF_NAME
-      run: echo "$GITHUB_REF_NAME"
+    - name: Echo GITHUB_PR_NUMBER
+      env:
+        GITHUB_PR_NUMBER: ${{github.event.pull_request.number}}
+      run: echo "$GITHUB_PR_NUMBER"
     - name: Deploy to Serverless
-      run: serverless deploy --stage $GITHUB_REF_NAME
+      run: serverless deploy --stage ${{github.event.pull_request.number}}
 
   remove-deployment:
     if: github.event_name == 'pull_request' && github.ref != 'refs/heads/staging' && github.ref != 'refs/heads/production'
