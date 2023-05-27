@@ -8,6 +8,12 @@ on:
     branches:
       - staging
       - production
+  pull_request_target:
+    branches-ignore:  
+      - staging
+      - production
+    types:
+      - closed
 
 jobs:
   serverless-deploy:
@@ -53,13 +59,31 @@ jobs:
   #    run: serverless deploy --stage $STAGE
       #run: serverless deploy --stage ${{ env.STAGE }}
 
+  staging-post-deployment:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - name: Echo PR number
+      run: echo "${{ github.event.pull_request.number }}"
+    - name: Echo github event name
+      run: echo "${{ github.event_name }}"
+  
+  close-pr:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Echo github.pull_request_target
+      run: echo "${{ github.pull_request_target }}"
+    - name: Echo github.pull_request_target.types
+      run: echo "${{ github.pull_request_target.types }}"
+      
   remove-deployment:
     # if: github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.ref != 'refs/heads/staging' && github.ref != 'refs/heads/production'
     if: github.event_name == 'pull_request' && github.event.pull_request.merged == true && github.ref != 'refs/heads/staging' && github.ref != 'refs/heads/production'
     runs-on: ubuntu-latest
     steps:
+    
     - name: Echo pull request
-      run: echo "${{github.event.pull_request.number}}"
+      run: echo "${{ github.event.pull_request.number }}"
    # - name: Install Serverless Framework
    #   run: npm install -g serverless
    # - name: Remove deployment from Serverless
