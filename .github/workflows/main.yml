@@ -55,7 +55,7 @@ jobs:
       #run: serverless deploy --stage ${{ env.STAGE }}
 
   staging-post-deployment:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/finetune-cicd-again'
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
     - name: Echo PR number
