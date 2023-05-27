@@ -69,6 +69,7 @@ jobs:
       run: echo "${{ github.event_name }}"
   
   close-pr:
+    runs-on: ubuntu-latest
     steps:
     - name: Echo github.pull_request_target
       run: echo "${{ github.pull_request_target }}"
