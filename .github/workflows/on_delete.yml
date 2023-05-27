@@ -1,14 +1,10 @@
-name: Serverless Delete example
+name: Serverless Delete
 
 on:
   delete:
     branches-ignore:  
       - staging
       - production
-  push:
-  #  branches:
-  #    - staging
-  #    - production
 
 # Specify what jobs to run
 jobs:
