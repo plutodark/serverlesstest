@@ -4,10 +4,10 @@ on:
   pull_request:
     branches:
       - '*'
-  push:
-    branches-ignore:
-      - staging
-      - production
+#  push:
+#    branches-ignore:
+#      - staging
+#      - production
 
 jobs:
   serverless-deploy:
