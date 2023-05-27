@@ -1,0 +1,67 @@
+name: Serverless Delete
+
+# only trigger on pull request closed events
+on:
+  pull_request:
+    types: [closed]
+    branches-ignore:  
+      - staging
+      - production
+
+jobs:
+ # merge-job:
+ #   if: github.event.pull_request.merged == true
+ #   runs-on: ubuntu-latest
+ #   steps:
+ #   - name: Echo PR number
+ #     run: echo "PR ${{ github.event.pull_request.number }} has been merged"
+ #   - name: Echo branch name
+ #     run: echo "${{ github.ref_name }}"
+
+ # close-job:
+ #   if: github.event.pull_request.merged == false
+ #   runs-on: ubuntu-latest
+ #   steps:
+ #   - name: Echo PR number
+ #     run: echo "PR ${{ github.event.pull_request.number }} has been closed without being merged"
+ #   - name: Echo branch name
+ #     run: echo "${{ github.ref_name }}"
+  
+  close-or-merge:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18'
+    - name: Set AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-2
+    - name: Install Serverless Framework
+      run: npm install -g serverless
+    - name: Remove deployment from Serverless
+      run: serverless remove --stage ${{github.event.pull_request.number}}
+
+      
+    #  - name: Set Branch name
+    #    run: |
+    #      BRANCH=$(cat ${{ github.event_path }} | jq --raw-output '.ref')
+    #      echo "${{ github.repository }} has ${BRANCH} branch"
+    #      echo "::set-env name=STAGE::$(echo ${BRANCH})"
+    #  - name: Echo Branch name
+    #    run: echo Deleting from STAGE:$STAGE
+
+      # Install npm and it's dependencies
+    #  - name: npm install dependencies
+    #    run: npm install
+
+      # sls remove
+    #  - name: Serverless
+    #    uses: serverless/github-action@v1.53.0
+    #    with:
+    #      args: remove
