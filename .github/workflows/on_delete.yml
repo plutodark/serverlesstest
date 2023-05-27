@@ -2,9 +2,8 @@ name: Serverless Delete
 
 on:
   delete:
-    branches-ignore:  
-      - staging
-      - production
+    branches:
+      - '*'
 
 # Specify what jobs to run
 jobs:
