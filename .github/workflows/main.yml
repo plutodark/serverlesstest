@@ -71,7 +71,7 @@ jobs:
   close-pr:
     steps:
     - name: Echo github.pull_request_target
-      run: echo "${{ gitbhub.pull_request_target }}"
+      run: echo "${{ github.pull_request_target }}"
     - name: Echo github.pull_request_target.types
       run: echo "${{ github.pull_request_target.types }}"
       
