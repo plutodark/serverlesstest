@@ -4,9 +4,6 @@ name: Serverless Delete
 on:
   pull_request:
     types: [closed]
-    branches-ignore:  
-      - staging
-      - production
 
 jobs:
  # merge-job:
