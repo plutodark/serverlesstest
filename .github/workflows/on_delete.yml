@@ -6,7 +6,7 @@ on:
     types: [ closed ]
 
 jobs:
-  merge_job:
+  merge:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
@@ -15,7 +15,7 @@ jobs:
     name: echo github.ref_name
     - run: echo ${{ github.ref_name }}
 
-  close_job:
+  close:
     if: github.event.pull_request.merged == false
     runs-on: ubuntu-latest
     steps:
