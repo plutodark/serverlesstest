@@ -3,26 +3,26 @@ name: Serverless Delete
 # only trigger on pull request closed events
 on:
   pull_request:
-    types: [ closed ]
+    types: [closed]
 
 jobs:
-  merge:
+  merge-job:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-    - run: |
-        echo PR #${{ github.event.number }} has been merged
-    name: echo github.ref_name
-    - run: echo ${{ github.ref_name }}
+    - name: Echo PR number
+      run: echo "PR ${{ github.event.pull_request.number }} has been merged"
+    - name: Echo branch name
+      run: echo "${{ github.ref_name }}"
 
-  close:
+  close-job:
     if: github.event.pull_request.merged == false
     runs-on: ubuntu-latest
     steps:
-    - run: |
-        echo PR #${{ github.event.number }} has been closed without being merged
-    name: echo github.ref_name
-    - run: echo ${{ github.ref_name }}
+    - name: Echo PR number
+      run: echo "PR ${{ github.event.pull_request.number }} has been closed without being merged"
+    - name: Echo branch name
+      run: echo "${{ github.ref_name }}"
 
       
     #  - name: Set Branch name
